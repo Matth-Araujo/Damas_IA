@@ -2,7 +2,6 @@ package com.example.damas.Entities;
 
 import com.example.damas.Enums.Cor;
 
-import java.util.List;
 
 public class Tabuleiro {
     private final int n = 8;
