@@ -1,6 +1,7 @@
 package com.example.damas.Enums;
 
 public enum StatusPartida {
-    ANDAMENTO,
-    FINALIZADO
+    EM_ANDAMENTO,
+    VITORIA_PRETO,
+    VITORIA_BRANCO
 }

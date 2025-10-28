@@ -1,6 +1,5 @@
 package com.example.damas.Entities;
 
-
 public class Usuario {
 
     private int id;
