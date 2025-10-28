@@ -35,9 +35,27 @@ public class Tabuleiro {
         return casa[posicao.getLinha()][posicao.getColuna()].Ocupada();
     }
 
-    //public Peca moverPeca(Movimento mov){return }
+    public Peca moverPeca(Movimento mov){
+        Peca peca = getCasa(mov.getOrigem()).getPeca();
+        remPeca(mov.getOrigem());
+        addPeca(peca, mov.getDestino());
+        if(mov.isCaptura()){
+            remPeca(mov.getPosPecaCapturada());
+        }
+        return peca;
+    }
 
-    //public List<Movimento> getMovimentoValido(Peca peca){return}
+    //public List<Movimento> getMovimentoValido(Peca peca, Posicao pos) {
+    //}
+
+    //private List<Movimento> getMovimentosPecaNormal(Peca peca, Posicao pos) {
+    //}
+    //private List<Movimento> getMovimentosDama(Posicao pos) {
+    //}
+
+    private boolean isPosicaoValida(Posicao pos) {
+        return pos.getLinha() >= 0 && pos.getLinha() < n && pos.getColuna() >= 0 && pos.getColuna() < n;
+    }
 
 
 

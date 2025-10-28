@@ -10,7 +10,7 @@ description = 'Damas'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21) // ou 17, mas tem que ser o mesmo no IntelliJ
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
