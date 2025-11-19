@@ -14,5 +14,7 @@ abstract class Jogador {
         this.nome = nome;
     }
 
-    abstract Movimento fazerjogada(Tabuleiro tabuleiro);
+    public Cor getCor() {
+        return cor;
+    }
 }
