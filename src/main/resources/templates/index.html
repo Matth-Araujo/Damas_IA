@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Damas IA - Jogue Damas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal_style.css">
+    <link rel="stylesheet" href="login_modal_style.css">
+</head>
+<body>
+<!-- Sidebar Esquerda -->
+<div class="sidebar-left">
+    <div class="logo">
+        <svg viewBox="0 0 100 30" fill="#fff">
+            <text x="0" y="20" font-size="16" font-weight="bold">Damas IA</text>
+        </svg>
+    </div>
+    <button class="btn-signup" id="btn-signup-trigger">Inscreva-se</button>
+    <button class="btn-login" id="btn-login-trigger">Entrar</button>
+
+    <div class="footer-sidebar">
+        <div>❓ Sobre nós</div>
+    </div>
+</div>
+
+<!-- Área Central -->
+<div class="main-content">
+    <div class="opponent-info">
+        <span>Adversário</span>
+    </div>
+
+    <div class="chessboard" id="board"></div>
+
+    <div class="player-info">
+        <span>Jogador</span>
+    </div>
+</div>
+
+<!-- Sidebar Direita -->
+<div class="sidebar-right">
+    <div class="header-right">
+        <span class="header-icon">⚫</span>
+        <h1>Jogue Damas</h1>
+    </div>
+
+    <div class="play-option">
+        <span class="option-icon">🤖</span>
+        <div class="option-text">
+            <h3>Jogar Com Bots</h3>
+            <p>Desafie um bot de Fácil até Difícil</p>
+        </div>
+    </div>
+
+    <div class="play-option">
+        <span class="option-icon">🏆</span>
+        <div class="option-text">
+            <h3>Torneios</h3>
+        </div>
+    </div>
+
+
+    <div class="bottom-options">
+        <div class="bottom-btn">
+            <span>🗂️</span>
+            <span>Histórico de Partidas</span>
+        </div>
+        <div class="bottom-btn">
+            <span>📊</span>
+            <span>Ranking</span>
+        </div>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

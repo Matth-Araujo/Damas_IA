@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #262421;
+    color: #fff;
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar Esquerda */
+.sidebar-left {
+    width: 160px;
+    background-color: #312e2b;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.logo img {
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #3c3834;
+}
+
+.menu-item-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.btn-signup {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: auto;
+}
+
+.btn-login {
+    background-color: transparent;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Área Central - Tabuleiro */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.opponent-info {
+    background-color: #3c3834;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.opponent-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #5c5955;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 80px);
+    grid-template-rows: repeat(8, 80px);
+    border: 3px solid #3c3834;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    position: relative;
+}
+
+.square.light {
+    background-color: #ebecd0;
+}
+
+.square.dark {
+    background-color: #8B4513;
+}
+
+.coord {
+    position: absolute;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.coord.file {
+    bottom: 2px;
+    right: 4px;
+}
+
+.coord.rank {
+    top: 2px;
+    left: 4px;
+}
+
+.square.dark .coord {
+    color: #ebecd0;
+}
+
+.square.light .coord {
+    color: #8B4513;
+}
+
+.player-info {
+    background-color: #3c3834;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Sidebar Direita */
+.sidebar-right {
+    width: 380px;
+    background-color: #262421;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-icon {
+    font-size: 40px;
+    margin-right: 15px;
+}
+
+.play-option {
+    background-color: #312e2b;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.play-option:hover {
+    background-color: #3c3834;
+}
+
+.option-icon {
+    font-size: 40px;
+    margin-right: 20px;
+}
+
+.option-text h3 {
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.option-text p {
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+.bottom-options {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.bottom-btn {
+    flex: 1;
+    background-color: #312e2b;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bottom-btn:hover {
+    background-color: #3c3834;
+}
+
+.footer-sidebar {
+    position: relative;
+    margin-top: auto;
+    font-size: 12px;
+    color: #a0a0a0;
+    padding-top: 20px;
+}

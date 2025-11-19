@@ -18,8 +18,4 @@ public class IA extends Jogador{
         return null;
     }
 
-    @Override
-    Movimento fazerjogada(Tabuleiro tabuleiro) {
-        return null;
-    }
 }
