@@ -39,4 +39,23 @@ public class UsuarioRepository {
         });
         return usuarios.isEmpty() ? null : usuarios.get(0);
     }
+
+    public boolean emailJaExiste(String email) {
+        String sql = "SELECT COUNT(*) FROM public.usuario WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+
+    public Usuario procurarPorEmail(String email) {
+        String sql = "SELECT * FROM public.usuario WHERE email = ?";
+        List<Usuario> usuarios = jdbcTemplate.query(sql, new Object[]{email}, (rs, rowNum) -> {
+            Usuario usuario = new Usuario();
+            usuario.setId(rs.getInt("id"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setSenha(rs.getString("senha"));
+            return usuario;
+        });
+        return usuarios.isEmpty() ? null : usuarios.get(0);
+    }
 }

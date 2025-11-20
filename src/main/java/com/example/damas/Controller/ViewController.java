@@ -11,4 +11,13 @@ public class ViewController {
         return "index";
     }
 
+    @GetMapping("/cadastro")
+    public String cadastro() {
+        return "modal";
+    }
+
+  //  @GetMapping("/login")
+    //public String login() {
+     //   return "login";
+   // }
 }

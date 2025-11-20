@@ -5,8 +5,8 @@ const pieces = {
     'b': '⚫', // peça preta
     'w': '⚪', // peça branca
 
-    'B': '♚', // dama preta (rei preto)
-    'W': '♔'  // dama branca (rei branco)
+    'B': '', // dama preta
+    'W': ''  // dama branca
 };
 
 const initialPosition = [
