@@ -1,0 +1,39 @@
+IDE:
+spring.application.name=Damas
+
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/damasdb
+spring.datasource.username=poodev
+spring.datasource.password=poodev1234
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+spring.sql.init.encoding=UTF-8
+spring.main.banner-mode=off
+
+
+para o docker:
+
+spring.application.name=Damas
+
+# Configuração do banco de dados (DOCKER)
+spring.datasource.url=jdbc:postgresql://db:5432/damasdb
+spring.datasource.username=${POSTGRES_USER}
+spring.datasource.password=${POSTGRES_PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Configurações do JPA/Hibernate
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+spring.sql.init.encoding=UTF-8
+spring.main.banner-mode=off

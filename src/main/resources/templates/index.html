@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Damas IA - Jogue Damas</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modal_style.css">
-    <link rel="stylesheet" href="login_modal_style.css">
 </head>
 <body>
 <!-- Sidebar Esquerda -->
@@ -16,8 +14,8 @@
             <text x="0" y="20" font-size="16" font-weight="bold">Damas IA</text>
         </svg>
     </div>
-    <button class="btn-signup" id="btn-signup-trigger">Inscreva-se</button>
-    <button class="btn-login" id="btn-login-trigger">Entrar</button>
+    <button class="btn-signup" onclick="window.location.href='/cadastro'">Inscreva-se</button>
+    <button class="btn-login" onclick="window.location.href='/login'">Entrar</button>
 
     <div class="footer-sidebar">
         <div>❓ Sobre nós</div>
@@ -59,7 +57,6 @@
         </div>
     </div>
 
-
     <div class="bottom-options">
         <div class="bottom-btn">
             <span>🗂️</span>
@@ -72,8 +69,6 @@
     </div>
 </div>
 
-
 <script src="script.js"></script>
-
 </body>
 </html>
