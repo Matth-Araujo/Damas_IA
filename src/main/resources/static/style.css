@@ -230,3 +230,58 @@ body {
     color: #a0a0a0;
     padding-top: 20px;
 }
+.bot-levels {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin-top: 0;
+}
+
+.bot-levels.show {
+    max-height: 500px;
+    margin-top: 10px;
+}
+
+.level-option {
+    background-color: #3c3834;
+    padding: 15px 20px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.level-option:hover {
+    background-color: #4a4440;
+}
+
+.level-icon {
+    font-size: 24px;
+}
+
+.level-text {
+    flex: 1;
+}
+
+.level-text h4 {
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+
+.level-text p {
+    font-size: 12px;
+    color: #a0a0a0;
+}
+
+
+.play-option .arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.play-option.active .arrow {
+    transform: rotate(180deg);
+}

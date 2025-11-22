@@ -42,11 +42,36 @@
         <h1>Jogue Damas</h1>
     </div>
 
-    <div class="play-option">
+    <div class="play-option" id="bot-option" onclick="toggleBotLevels()">
         <span class="option-icon">🤖</span>
         <div class="option-text">
             <h3>Jogar Com Bots</h3>
             <p>Desafie um bot de Fácil até Difícil</p>
+        </div>
+        <span class="arrow">▼</span>
+    </div>
+
+    <!-- Submenu de níveis (inicialmente escondido) -->
+    <div class="bot-levels" id="bot-levels">
+        <div class="level-option" onclick="iniciarJogoBot('facil')">
+            <div class="level-text">
+                <h4>Fácil</h4>
+                <p>Ideal para iniciantes</p>
+            </div>
+        </div>
+
+        <div class="level-option" onclick="iniciarJogoBot('medio')">
+            <div class="level-text">
+                <h4>Médio</h4>
+                <p>Um desafio equilibrado</p>
+            </div>
+        </div>
+
+        <div class="level-option" onclick="iniciarJogoBot('dificil')">
+            <div class="level-text">
+                <h4>Difícil</h4>
+                <p>Para jogadores experientes</p>
+            </div>
         </div>
     </div>
 
@@ -70,5 +95,6 @@
 </div>
 
 <script src="script.js"></script>
+<script src="verificar_login.js"></script>
 </body>
 </html>
