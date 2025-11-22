@@ -21,7 +21,7 @@ public class UsuarioService {
     }
 
     public void cadastrarUsuario(Usuario usuario) throws Exception {
-        // 1. Validar nome
+        // Validar nome
         if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
             throw new Exception("Nome é obrigatório!");
         }
@@ -29,7 +29,7 @@ public class UsuarioService {
             throw new Exception("Nome deve ter pelo menos 3 caracteres!");
         }
 
-        // 2. Validar email
+        // Validar email
         if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
             throw new Exception("Email é obrigatório!");
         }
@@ -37,12 +37,12 @@ public class UsuarioService {
             throw new Exception("Email inválido!");
         }
 
-        // 3. Verificar se o email já existe
+        // Verificar se o email já existe
         if (usuarioRepository.emailJaExiste(usuario.getEmail())) {
             throw new Exception("Este email já está cadastrado!");
         }
 
-        // 4. Validar senha forte
+        // Validar senha forte
         if (usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
             throw new Exception("Senha é obrigatória!");
         }
@@ -50,16 +50,56 @@ public class UsuarioService {
             throw new Exception("Senha fraca! A senha deve ter pelo menos 6 caracteres, incluindo letras e números.");
         }
 
-        // 5. Criptografar a senha antes de salvar
+        // Criptografar a senha antes de salvar
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
 
-        // 6. Salvar no banco de dados
+        // Salvar no banco de dados
         usuarioRepository.salvarusuario(usuario);
     }
 
     public Usuario buscarPorId(int id) {
         return usuarioRepository.procuraPorID(id);
+    }
+
+
+    public Usuario fazerLogin(String email, String senha) {
+        // Busca o usuário pelo email
+        Usuario usuario = usuarioRepository.procurarPorEmail(email);
+
+        if (usuario == null) {
+            return null;
+        }
+
+        // Verifica se a senha digitada corresponde ao hash armazenado
+        boolean senhaCorreta = passwordEncoder.matches(senha, usuario.getSenha());
+
+        if (senhaCorreta) {
+            // Remove a senha antes de retornar (segurança)
+            usuario.setSenha(null);
+            return usuario;
+        }
+
+        // Senha incorreta
+        return null;
+    }
+
+    public boolean verificarLogin(String email, String senhaDigitada) {
+        Usuario usuario = usuarioRepository.procurarPorEmail(email);
+        if (usuario == null) {
+            return false;
+        }
+        // Compara a senha digitada com o hash armazenado
+        return passwordEncoder.matches(senhaDigitada, usuario.getSenha());
+    }
+
+    public Usuario buscarPorEmail(String email) {
+        Usuario usuario = usuarioRepository.procurarPorEmail(email);
+        if (usuario != null) {
+
+            usuario.setSenha(null);
+        }
+        return usuario;
     }
 
     private boolean validarEmail(String email) {
@@ -87,20 +127,11 @@ public class UsuarioService {
             } else if (Character.isDigit(c)) {
                 temNumero = true;
             } else {
-                // Contem caractere especial, nao permitido
+                // Contém caractere especial, não permitido
                 return false;
             }
         }
 
         return temLetra && temNumero;
-    }
-
-    public boolean verificarLogin(String email, String senhaDigitada) {
-        Usuario usuario = usuarioRepository.procurarPorEmail(email);
-        if (usuario == null) {
-            return false;
-        }
-        // Compara a senha digitada com o hash armazenado
-        return passwordEncoder.matches(senhaDigitada, usuario.getSenha());
     }
 }

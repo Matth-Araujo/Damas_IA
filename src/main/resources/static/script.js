@@ -22,6 +22,31 @@ const initialPosition = [
 
 const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
+function toggleBotLevels() {
+    const botLevels = document.getElementById('bot-levels');
+    const botOption = document.getElementById('bot-option');
+
+    botLevels.classList.toggle('show');
+    botOption.classList.toggle('active');
+}
+
+// NOVO: Função para iniciar jogo com bot
+function iniciarJogoBot(nivel) {
+    console.log('Iniciando jogo com bot:', nivel);
+
+    // Fecha o menu
+    const botLevels = document.getElementById('bot-levels');
+    const botOption = document.getElementById('bot-option');
+    botLevels.classList.remove('show');
+    botOption.classList.remove('active');
+
+    // Mostra confirmação
+    alert(`Iniciando jogo no nível: ${nivel.toUpperCase()}`);
+
+    // Aqui você implementará a lógica do jogo
+}
+
+
 for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
         const square = document.createElement('div');
