@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -78,5 +80,15 @@ public class UsuarioController {
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok("Logout realizado com sucesso!");
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<?> getRanking() {
+        try {
+            List<Map<String, Object>> ranking = usuarioService.getRanking();
+            return ResponseEntity.ok(ranking);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao buscar ranking: " + e.getMessage());
+        }
     }
 }

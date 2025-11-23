@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
@@ -133,5 +135,8 @@ public class UsuarioService {
         }
 
         return temLetra && temNumero;
+    }
+    public List<Map<String, Object>> getRanking() {
+        return usuarioRepository.getRankingJogadores();
     }
 }

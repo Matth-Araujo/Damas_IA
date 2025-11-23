@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico e Ranking</title>
+    <link rel="stylesheet" href="/historico_styles.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1> Histórico & Ranking</h1>
+        <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
+    </header>
+
+    <!-- Abas -->
+    <div class="tabs">
+        <button class="tab active" onclick="mostrarAba('historico')">
+            🗂️ Meu Histórico
+        </button>
+        <button class="tab" onclick="mostrarAba('ranking')">
+            🏆 Ranking Global
+        </button>
+    </div>
+
+    <!-- Aba Histórico -->
+    <div id="aba-historico" class="aba-content active">
+        <div id="loading-historico" class="loading">Carregando histórico...</div>
+        <div id="sem-partidas" class="sem-partidas" style="display: none;">
+            Você ainda não jogou nenhuma partida. 🎮
+        </div>
+        <div id="historico-lista" class="historico-lista"></div>
+    </div>
+
+    <!-- Aba Ranking -->
+    <div id="aba-ranking" class="aba-content">
+        <div id="loading-ranking" class="loading">Carregando ranking...</div>
+        <div id="sem-ranking" class="sem-partidas" style="display: none;">
+            Ainda não há jogadores no ranking. 🏆
+        </div>
+        <div id="ranking-lista" class="ranking-lista"></div>
+    </div>
+</div>
+
+<script src="/historico_script.js"></script>
+</body>
+</html>
