@@ -30,20 +30,20 @@ function toggleBotLevels() {
     botOption.classList.toggle('active');
 }
 
-// NOVO: Função para iniciar jogo com bot
+
 function iniciarJogoBot(nivel) {
     console.log('Iniciando jogo com bot:', nivel);
 
-    // Fecha o menu
+
     const botLevels = document.getElementById('bot-levels');
     const botOption = document.getElementById('bot-option');
     botLevels.classList.remove('show');
     botOption.classList.remove('active');
 
-    // Mostra confirmação
+
     alert(`Iniciando jogo no nível: ${nivel.toUpperCase()}`);
 
-    // Aqui você implementará a lógica do jogo
+    // implementação do IA
 }
 
 
@@ -57,7 +57,6 @@ for (let row = 0; row < 8; row++) {
             square.textContent = pieces[piece];
         }
 
-        // Adicionar coordenadas
         if (col === 7) {
             const rankCoord = document.createElement('span');
             rankCoord.className = 'coord rank';

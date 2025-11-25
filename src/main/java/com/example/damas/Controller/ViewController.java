@@ -20,4 +20,9 @@ public class ViewController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/historico")
+    public String historico() {
+        return "historico";
+    }
 }

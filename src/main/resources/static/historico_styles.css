@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #262421;
+    color: #fff;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #3c3834;
+}
+
+.header h1 {
+    font-size: 28px;
+}
+
+.btn-voltar {
+    background-color: #3c3834;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.btn-voltar:hover {
+    background-color: #4a4440;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #a0a0a0;
+    font-size: 18px;
+}
+
+.sem-partidas {
+    text-align: center;
+    padding: 60px;
+    color: #a0a0a0;
+    font-size: 18px;
+}
+
+.historico-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.partida-card {
+    background-color: #312e2b;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: background-color 0.2s;
+}
+
+.partida-card:hover {
+    background-color: #3c3834;
+}
+
+.resultado-icon {
+    font-size: 48px;
+    min-width: 60px;
+    text-align: center;
+}
+
+.partida-info {
+    flex: 1;
+}
+
+.partida-titulo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.partida-detalhes {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #a0a0a0;
+}
+
+.partida-resultado {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 6px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.resultado-vitoria {
+    background-color: #2d5016;
+    color: #81b64c;
+}
+
+.resultado-derrota {
+    background-color: #5c1f1f;
+    color: #ff6b6b;
+}
+
+.resultado-empate {
+    background-color: #3c3c3c;
+    color: #ffd93d;
+}
+/* Abas */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    background-color: #312e2b;
+    color: #a0a0a0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.tab:hover {
+    background-color: #3c3834;
+}
+
+.tab.active {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.aba-content {
+    display: none;
+}
+
+.aba-content.active {
+    display: block;
+}
+
+/* Ranking */
+.ranking-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ranking-item {
+    background-color: #312e2b;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: background-color 0.2s;
+}
+
+.ranking-item:hover {
+    background-color: #3c3834;
+}
+
+.ranking-posicao {
+    font-size: 32px;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+.ranking-posicao.top1 {
+    color: #FFD700;
+}
+
+.ranking-posicao.top2 {
+    color: #C0C0C0;
+}
+
+.ranking-posicao.top3 {
+    color: #CD7F32;
+}
+
+.ranking-info {
+    flex: 1;
+}
+
+.ranking-nome {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.ranking-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #a0a0a0;
+}
+
+.ranking-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ranking-taxa {
+    font-size: 24px;
+    font-weight: bold;
+    color: #81b64c;
+    min-width: 80px;
+    text-align: right;
+}
+
+.medal-icon {
+    font-size: 36px;
+}

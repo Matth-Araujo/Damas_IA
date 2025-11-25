@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UsuarioRepository {
@@ -57,5 +58,28 @@ public class UsuarioRepository {
             return usuario;
         });
         return usuarios.isEmpty() ? null : usuarios.get(0);
+    }
+    public List<Map<String, Object>> getRankingJogadores() {
+        String sql = """
+        SELECT 
+            u.id,
+            u.nome,
+            COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END) as vitorias,
+            COUNT(CASE WHEN ph.resultado = 'DERROTA' THEN 1 END) as derrotas,
+            COUNT(ph.id) as total_partidas,
+            ROUND(
+                (COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END)::float / 
+                NULLIF(COUNT(ph.id), 0)) * 100, 
+                2
+            ) as taxa_vitoria
+        FROM public.usuario u
+        LEFT JOIN public.partida_historico ph ON u.id = ph.usuario_id
+        GROUP BY u.id, u.nome
+        HAVING COUNT(ph.id) > 0
+        ORDER BY vitorias DESC, taxa_vitoria DESC
+        LIMIT 10
+    """;
+
+        return jdbcTemplate.queryForList(sql);
     }
 }

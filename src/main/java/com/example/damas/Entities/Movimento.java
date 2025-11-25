@@ -34,4 +34,17 @@ public class Movimento {
     public boolean isCaptura() {
         return isCaptura;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Movimento)) return false;
+        Movimento m = (Movimento) obj;
+        return origem.equals(m.origem) && destino.equals(m.destino);
+    }
+
+    @Override
+    public int hashCode() {
+        return origem.hashCode() * 31 + destino.hashCode();
+    }
 }

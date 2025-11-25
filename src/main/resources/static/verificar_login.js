@@ -30,7 +30,7 @@ function mostrarUsuarioLogado(usuario) {
 
 
         const userInfo = document.createElement('div');
-        userInfo.style.cssText = 'padding: 12px; color: #81b64c; text-align: center; font-weight: bold; margin-top: auto;';
+        userInfo.style.cssText = 'padding: 12px; color: #007BFF; text-align: center; font-weight: bold; margin-top: auto;';
         userInfo.textContent = usuario.nome;
 
 
