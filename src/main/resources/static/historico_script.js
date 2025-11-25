@@ -1,6 +1,6 @@
 let rankingCarregado = false;
 
-// Alternar entre abas
+// Alterna entre abas
 function mostrarAba(aba) {
     // Remove active de todas as abas
     document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -22,7 +22,7 @@ function mostrarAba(aba) {
     }
 }
 
-// Carrega histórico de partidas
+// Carrega historico de partidas
 async function carregarHistorico() {
     const loading = document.getElementById('loading-historico');
     const semPartidas = document.getElementById('sem-partidas');
@@ -167,5 +167,5 @@ function criarItemRanking(jogador, posicao) {
     return item;
 }
 
-// Carrega o histórico quando a página carregar
+// Carrega o historico quando a pagina carregar
 document.addEventListener('DOMContentLoaded', carregarHistorico);

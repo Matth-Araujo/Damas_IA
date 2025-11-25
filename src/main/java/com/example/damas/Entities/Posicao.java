@@ -24,4 +24,17 @@ public class Posicao {
     public void setColuna(int coluna) {
         this.coluna = coluna;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Posicao)) return false;
+        Posicao p = (Posicao) obj;
+        return linha == p.linha && coluna == p.coluna;
+    }
+
+    @Override
+    public int hashCode() {
+        return linha * 31 + coluna;
+    }
 }

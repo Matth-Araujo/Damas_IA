@@ -17,6 +17,26 @@ public class Partida {
         this.jogador2 = jogador2;
     }
 
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
+
+    public Cor getTurnoAtual() {
+        return turnoAtual;
+    }
+
+    public StatusPartida getStatus() {
+        return status;
+    }
+
+    public Jogador getJogador1() {
+        return jogador1;
+    }
+
+    public Jogador getJogador2() {
+        return jogador2;
+    }
+
     public void inicarPartida(){
         this.tabuleiro = new Tabuleiro();
         this.turnoAtual = Cor.BRANCO;
@@ -27,6 +47,11 @@ public class Partida {
         Peca peca = tabuleiro.getCasa(movimento.getOrigem()).getPeca();
         if (peca == null || peca.getCor() != turnoAtual) {
             return false;
+        }
+
+        List<Movimento> capturasObrigatorias = tabuleiro.getMovimentosObrigatorios(turnoAtual);
+        if (!capturasObrigatorias.isEmpty() && !capturasObrigatorias.contains(movimento)) {
+            return false; // Deve capturar
         }
 
         List<Movimento> movimentosValidos = tabuleiro.getMovimentoValido(peca, movimento.getOrigem());

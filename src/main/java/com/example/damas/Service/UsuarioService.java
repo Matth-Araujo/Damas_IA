@@ -56,7 +56,7 @@ public class UsuarioService {
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
 
-        // Salvar no banco de dados
+        // Salva no banco de dados
         usuarioRepository.salvarusuario(usuario);
     }
 
@@ -66,7 +66,7 @@ public class UsuarioService {
 
 
     public Usuario fazerLogin(String email, String senha) {
-        // Busca o usuário pelo email
+        // Busca o usuario pelo email
         Usuario usuario = usuarioRepository.procurarPorEmail(email);
 
         if (usuario == null) {
@@ -77,7 +77,7 @@ public class UsuarioService {
         boolean senhaCorreta = passwordEncoder.matches(senha, usuario.getSenha());
 
         if (senhaCorreta) {
-            // Remove a senha antes de retornar (segurança)
+            // Remove a senha antes de retornar
             usuario.setSenha(null);
             return usuario;
         }
