@@ -12,7 +12,6 @@ public class Peca {
         this.tipo = TipoPeca.NORMAL;
     }
 
-
     public boolean dama(){
         return this.tipo == TipoPeca.DAMA;
     }
@@ -29,4 +28,16 @@ public class Peca {
         return tipo;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Peca)) return false;
+        Peca p = (Peca) obj;
+        return cor == p.cor && tipo == p.tipo;
+    }
+
+    @Override
+    public int hashCode() {
+        return cor.hashCode() * 31 + tipo.hashCode();
+    }
 }

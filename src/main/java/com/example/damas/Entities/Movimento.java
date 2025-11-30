@@ -35,6 +35,19 @@ public class Movimento {
         return isCaptura;
     }
 
+    // NOVOS MÉTODOS
+    public boolean isMovimentoSimples() {
+        int distLinha = Math.abs(destino.getLinha() - origem.getLinha());
+        int distColuna = Math.abs(destino.getColuna() - origem.getColuna());
+        return distLinha == 1 && distColuna == 1;
+    }
+
+    public boolean isMovimentoLongo() {
+        int distLinha = Math.abs(destino.getLinha() - origem.getLinha());
+        int distColuna = Math.abs(destino.getColuna() - origem.getColuna());
+        return distLinha > 1 && distColuna > 1 && distLinha == distColuna;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

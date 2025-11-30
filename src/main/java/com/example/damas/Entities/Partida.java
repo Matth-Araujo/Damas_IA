@@ -12,6 +12,14 @@ public class Partida {
     private Cor turnoAtual;
     private StatusPartida status;
 
+    private int contadorMovimentos = 0;
+    private int movimentosSemCaptura = 0;
+    private long tempoInicio;
+    private static final int LIMITE_MOVIMENTOS_SEM_CAPTURA = 40;
+
+    private boolean emCombo = false;
+    private Posicao posicaoCombo = null;
+
     public Partida(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
@@ -37,10 +45,73 @@ public class Partida {
         return jogador2;
     }
 
+    public int getContadorMovimentos() {
+        return contadorMovimentos;
+    }
+
+    public int getDuracaoSegundos() {
+        return (int) ((System.currentTimeMillis() - tempoInicio) / 1000);
+    }
+
+    public boolean isEmCombo() {
+        return emCombo;
+    }
+
+    public Posicao getPosicaoCombo() {
+        return posicaoCombo;
+    }
+
     public void inicarPartida(){
         this.tabuleiro = new Tabuleiro();
         this.turnoAtual = Cor.BRANCO;
         this.status = StatusPartida.EM_ANDAMENTO;
+        this.contadorMovimentos = 0;
+        this.movimentosSemCaptura = 0;
+        this.tempoInicio = System.currentTimeMillis();
+        this.emCombo = false;
+        this.posicaoCombo = null;
+    }
+
+    // Este metodo funciona tanto para IA quanto para Humano
+    public boolean processarTurno() {
+        if (status != StatusPartida.EM_ANDAMENTO) {
+            return false;
+        }
+
+        Jogador jogadorAtual = (turnoAtual == Cor.BRANCO) ? jogador1 : jogador2;
+
+        // Para jogador humano, o fluxo é controlado pelo Controller (um movimento por requisição)
+        if (jogadorAtual instanceof JogadorHumano) {
+            Movimento movimento = jogadorAtual.escolherJogada(this);
+            if (movimento != null) {
+                return realizarJogada(movimento);
+            }
+            return false;
+        }
+
+        // Para IA, podemos fazer um loop para que ela realize o combo completo em um único turno
+        boolean jogadaRealizadaNoTurno = false;
+        while (true) {
+            Movimento movimento = jogadorAtual.escolherJogada(this);
+
+            if (movimento == null) {
+                break; // IA não tem mais movimentos (ou não escolheu), sai do loop
+            }
+
+            if (!realizarJogada(movimento)) {
+                // A IA escolheu um movimento inválido, o que não deveria acontecer.
+                // Saia para evitar um loop infinito.
+                break;
+            }
+            jogadaRealizadaNoTurno = true;
+
+            // Se a IA não estiver mais em um estado de combo, seu turno terminou.
+            if (!emCombo) {
+                break;
+            }
+            // Se emCombo for verdadeiro, o loop continua e a IA fará outra captura.
+        }
+        return jogadaRealizadaNoTurno;
     }
 
     public boolean realizarJogada(Movimento movimento){
@@ -49,9 +120,8 @@ public class Partida {
             return false;
         }
 
-        List<Movimento> capturasObrigatorias = tabuleiro.getMovimentosObrigatorios(turnoAtual);
-        if (!capturasObrigatorias.isEmpty() && !capturasObrigatorias.contains(movimento)) {
-            return false; // Deve capturar
+        if (emCombo && !movimento.getOrigem().equals(posicaoCombo)) {
+            return false;
         }
 
         List<Movimento> movimentosValidos = tabuleiro.getMovimentoValido(peca, movimento.getOrigem());
@@ -60,15 +130,53 @@ public class Partida {
         }
 
         tabuleiro.moverPeca(movimento);
+        contadorMovimentos++;
+
+        if (movimento.isCaptura()) {
+            movimentosSemCaptura = 0;
+        } else {
+            movimentosSemCaptura++;
+        }
 
         if ((peca.getCor() == Cor.BRANCO && movimento.getDestino().getLinha() == 0) ||
                 (peca.getCor() == Cor.PRETO && movimento.getDestino().getLinha() == tabuleiro.getN() - 1)) {
             peca.promover();
         }
 
+        if (movimento.isCaptura() && podeCapturarNovamente(movimento.getDestino(), turnoAtual)) {
+            emCombo = true;
+            posicaoCombo = movimento.getDestino();
+            return true;
+        }
+
+        emCombo = false;
+        posicaoCombo = null;
+
         trocarTurno();
+
+        if (movimentosSemCaptura >= LIMITE_MOVIMENTOS_SEM_CAPTURA) {
+            status = StatusPartida.EMPATE;
+            return true;
+        }
+
         status = verificarFimDeJogo();
         return true;
+    }
+
+    private boolean podeCapturarNovamente(Posicao posAtual, Cor cor) {
+        if (!tabuleiro.Ocupada(posAtual)) {
+            return false;
+        }
+
+        Peca peca = tabuleiro.getCasa(posAtual).getPeca();
+        List<Movimento> capturasPossiveis = tabuleiro.getMovimentoValido(peca, posAtual);
+
+        for (Movimento mov : capturasPossiveis) {
+            if (mov.isCaptura()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public StatusPartida verificarFimDeJogo(){
@@ -110,5 +218,9 @@ public class Partida {
             }
         }
         return true;
+    }
+
+    public int getMovimentosSemCaptura() {
+        return movimentosSemCaptura;
     }
 }
