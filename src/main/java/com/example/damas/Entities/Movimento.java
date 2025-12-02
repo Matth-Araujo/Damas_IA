@@ -35,7 +35,7 @@ public class Movimento {
         return isCaptura;
     }
 
-    // NOVOS MÉTODOS
+
     public boolean isMovimentoSimples() {
         int distLinha = Math.abs(destino.getLinha() - origem.getLinha());
         int distColuna = Math.abs(destino.getColuna() - origem.getColuna());

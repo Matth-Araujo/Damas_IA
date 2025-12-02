@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneio - Damas IA</title>
+    <link rel="stylesheet" href="/torneio_styles.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1>🏆 Torneio de Damas</h1>
+        <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
+    </header>
+
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela active">
+        <div class="info-torneio">
+            <h2>Bem-vindo ao Torneio!</h2>
+            <p> Formato: 8 jogadores (você + 7 bots)</p>
+            <p> Fases: Quartas → Semifinal → Final</p>
+        </div>
+        <button class="btn-iniciar" onclick="iniciarTorneio()">Iniciar Torneio</button>
+    </div>
+
+    <!-- Chaveamento -->
+    <div id="tela-chaveamento" class="tela">
+        <h2 id="fase-titulo">Quartas de Final</h2>
+        <div id="chaveamento" class="chaveamento"></div>
+        <button class="btn-proxima" onclick="proximaPartida()"> Próxima Partida</button>
+    </div>
+
+    <!-- Partida -->
+    <div id="tela-partida" class="tela">
+        <div id="info-partida" class="info-partida"></div>
+        <div class="chessboard" id="board-torneio"></div>
+        <button class="btn-desistir-torneio" onclick="desistirTorneio()">❌ Desistir do Torneio</button>
+    </div>
+
+    <!-- Resultado Final -->
+    <div id="tela-resultado" class="tela">
+        <div id="resultado-final" class="resultado-final"></div>
+        <button class="btn-novo-torneio" onclick="location.reload()"> Novo Torneio</button>
+    </div>
+</div>
+
+<script src="/torneio_script.js"></script>
+<script src="/verificar_login.js"></script>
+</body>
+</html>

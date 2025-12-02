@@ -9,20 +9,24 @@
 <body>
 <div class="container">
     <header class="header">
-        <h1> Histórico & Ranking</h1>
+        <h1>📊 Histórico & Ranking</h1>
         <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
     </header>
 
-    <!-- Abas -->
+    <!-- Abas Principais -->
     <div class="tabs">
         <button class="tab active" onclick="mostrarAba('historico')">
             🗂️ Meu Histórico
         </button>
+        <button class="tab" onclick="mostrarAba('torneios')">
+            🏆 Meus Torneios
+        </button>
         <button class="tab" onclick="mostrarAba('ranking')">
-            🏆 Ranking Global
+            📈 Ranking Global
         </button>
     </div>
 
+    <!-- ABA: Histórico de Partidas -->
     <div id="aba-historico" class="aba-content active">
         <div id="loading-historico" class="loading">Carregando histórico...</div>
         <div id="sem-partidas" class="sem-partidas" style="display: none;">
@@ -31,12 +35,38 @@
         <div id="historico-lista" class="historico-lista"></div>
     </div>
 
+    <!-- ABA: Torneios -->
+    <div id="aba-torneios" class="aba-content">
+        <div id="loading-torneios" class="loading">Carregando torneios...</div>
+        <div id="sem-torneios" class="sem-partidas" style="display: none;">
+            Você ainda não participou de nenhum torneio. 🏆
+        </div>
+        <div id="torneios-lista" class="historico-lista"></div>
+    </div>
+
+    <!-- ABA: Ranking -->
     <div id="aba-ranking" class="aba-content">
+        <!-- Sub-abas para ranking por nível -->
+        <div class="ranking-tabs">
+            <button class="ranking-tab active" onclick="mostrarRanking('geral')">Geral</button>
+            <button class="ranking-tab" onclick="mostrarRanking('facil')">Fácil</button>
+            <button class="ranking-tab" onclick="mostrarRanking('medio')">Médio</button>
+            <button class="ranking-tab" onclick="mostrarRanking('dificil')">Difícil</button>
+        </div>
+
         <div id="loading-ranking" class="loading">Carregando ranking...</div>
         <div id="sem-ranking" class="sem-partidas" style="display: none;">
             Ainda não há jogadores no ranking. 🏆
         </div>
         <div id="ranking-lista" class="ranking-lista"></div>
+    </div>
+</div>
+
+<!-- Modal de Chaveamento -->
+<div id="modal-chaveamento" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="fecharModal()">✕</button>
+        <div id="modal-conteudo"></div>
     </div>
 </div>
 

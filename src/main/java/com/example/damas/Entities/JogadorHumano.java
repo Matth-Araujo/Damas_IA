@@ -25,14 +25,13 @@ public class JogadorHumano extends Jogador {
     }
 
     /**
-     * Define o movimento escolhido pelo jogador na interface web
      * origem Posição de origem da peça
      * destino Posição de destino
      * tabuleiro Tabuleiro atual para validação
      * Retorna true se o movimento é válido, false caso contrário
      */
     public boolean definirJogada(Posicao origem, Posicao destino, Tabuleiro tabuleiro, Partida partida) {
-        // REATORADO: Se está em combo, só pode mover a peça que está capturando (usa o estado da Partida)
+        // Se esta em combo, so pode mover a peça que esta capturando
         if (partida.isEmCombo() && !origem.equals(partida.getPosicaoCombo())) {
             return false;
         }
@@ -66,7 +65,6 @@ public class JogadorHumano extends Jogador {
 
     /**
      * Retorna todos os movimentos válidos disponíveis para o jogador
-     * Útil para destacar casas clicáveis na interface
      */
     public List<Movimento> obterMovimentosDisponiveis(Tabuleiro tabuleiro) {
         List<Movimento> todosMovimentos = new java.util.ArrayList<>();
@@ -89,7 +87,6 @@ public class JogadorHumano extends Jogador {
 
     /**
      * Retorna movimentos válidos para uma peça específica
-     * Util para mostrar onde uma peça pode ir quando clicada
      */
     public List<Movimento> obterMovimentosDaPeca(Posicao posicao, Tabuleiro tabuleiro) {
         if (!tabuleiro.Ocupada(posicao)) {
@@ -107,13 +104,13 @@ public class JogadorHumano extends Jogador {
 
     /**
      * Verifica se o jogador tem movimentos disponíveis
-     * Retorna true se há movimentos válidos, false caso contrário
+     * Retorna true se tem movimentos validos, false caso contrario
      */
     public boolean temMovimentosDisponiveis(Tabuleiro tabuleiro) {
         return !obterMovimentosDisponiveis(tabuleiro).isEmpty();
     }
 
-    // NOVO: Verifica se o jogador deve continuar capturando
+    // Verifica se o jogador deve continuar capturando
     public boolean deveCapturarNovamente(Posicao posicaoAtual, Tabuleiro tabuleiro) {
         if (!tabuleiro.Ocupada(posicaoAtual)) {
             return false;

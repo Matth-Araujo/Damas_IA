@@ -59,27 +59,78 @@ public class UsuarioRepository {
         });
         return usuarios.isEmpty() ? null : usuarios.get(0);
     }
+
+
+    // RANKING DE MELHORES JOGADORES
     public List<Map<String, Object>> getRankingJogadores() {
         String sql = """
-        SELECT 
-            u.id,
-            u.nome,
-            COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END) as vitorias,
-            COUNT(CASE WHEN ph.resultado = 'DERROTA' THEN 1 END) as derrotas,
-            COUNT(ph.id) as total_partidas,
-            ROUND(
+    SELECT 
+        u.id,
+        u.nome,
+        COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END) as vitorias,
+        COUNT(CASE WHEN ph.resultado = 'DERROTA' THEN 1 END) as derrotas,
+        COUNT(ph.id) as total_partidas,
+        MIN(CASE WHEN ph.resultado = 'VITORIA' THEN ph.movimentos END) as melhor_partida,
+        ROUND(CAST(AVG(CASE WHEN ph.resultado = 'VITORIA' THEN ph.movimentos END) AS numeric), 1) as media_movimentos,
+        ROUND(
+            CAST(
                 (COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END)::float / 
-                NULLIF(COUNT(ph.id), 0)) * 100, 
-                2
-            ) as taxa_vitoria
-        FROM public.usuario u
-        LEFT JOIN public.partida_historico ph ON u.id = ph.usuario_id
-        GROUP BY u.id, u.nome
-        HAVING COUNT(ph.id) > 0
-        ORDER BY vitorias DESC, taxa_vitoria DESC
-        LIMIT 10
+                NULLIF(COUNT(ph.id), 0)) * 100 
+                AS numeric
+            ), 
+            2
+        ) as taxa_vitoria
+    FROM public.usuario u
+    LEFT JOIN public.partida_historico ph ON u.id = ph.usuario_id
+    GROUP BY u.id, u.nome
+    HAVING COUNT(ph.id) > 0
+    ORDER BY taxa_vitoria DESC, vitorias DESC, melhor_partida ASC
+    LIMIT 50
     """;
 
-        return jdbcTemplate.queryForList(sql);
+        try {
+            return jdbcTemplate.queryForList(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    // RANKING GERAL
+    public List<Map<String, Object>> getRankingGeral() {
+        return getRankingJogadores();
+    }
+
+    // RANKING POR NÍVEL
+    public List<Map<String, Object>> getRankingPorNivel(String nivel) {
+        String sql = """
+    SELECT
+    u.id,
+    u.nome,
+    COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END) as vitorias,
+    COUNT(CASE WHEN ph.resultado = 'DERROTA' THEN 1 END) as derrotas,
+    COUNT(ph.id) as total_partidas,
+    MIN(CASE WHEN ph.resultado = 'VITORIA' THEN ph.movimentos END) as melhor_partida,
+    ROUND(CAST(AVG(CASE WHEN ph.resultado = 'VITORIA' THEN ph.movimentos END) AS numeric), 1) as media_movimentos,
+    ROUND(
+        CAST(
+            (COUNT(CASE WHEN ph.resultado = 'VITORIA' THEN 1 END)::float /
+            NULLIF(COUNT(ph.id), 0)) * 100
+            AS numeric), 2) as taxa_vitoria
+    FROM public.usuario u
+    INNER JOIN public.partida_historico ph ON u.id = ph.usuario_id
+    WHERE ph.nivel = ?
+    GROUP BY u.id, u.nome
+    HAVING COUNT(ph.id) > 0
+    ORDER BY taxa_vitoria DESC, vitorias DESC, melhor_partida ASC
+    LIMIT 10
+    """;
+
+        try {
+            return jdbcTemplate.queryForList(sql, nivel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
     }
 }

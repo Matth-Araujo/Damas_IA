@@ -112,10 +112,9 @@ public class UsuarioService {
 
     private boolean validarSenhaForte(String senha) {
         // Requisitos:
-        // - Mínimo 6 caracteres
+        // - Minimo 6 caracteres
         // - Pelo menos uma letra
         // - Pelo menos um número
-        // - Apenas letras e números (sem caracteres especiais)
         if (senha == null || senha.length() < 6) {
             return false;
         }
@@ -136,7 +135,18 @@ public class UsuarioService {
 
         return temLetra && temNumero;
     }
+    // Metodo do ranking
     public List<Map<String, Object>> getRanking() {
         return usuarioRepository.getRankingJogadores();
+    }
+
+    // Ranking Geral
+    public List<Map<String, Object>> getRankingGeral() {
+        return usuarioRepository.getRankingGeral();
+    }
+
+    // Ranking por Nível
+    public List<Map<String, Object>> getRankingPorNivel(String nivel) {
+        return usuarioRepository.getRankingPorNivel(nivel);
     }
 }

@@ -6,6 +6,7 @@ import com.example.damas.Enums.StatusPartida;
 import java.util.List;
 
 public class Partida {
+    private Long id;
     private Tabuleiro tabuleiro;
     private Jogador jogador1;
     private Jogador jogador2;
@@ -23,6 +24,13 @@ public class Partida {
     public Partida(Jogador jogador1, Jogador jogador2) {
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Tabuleiro getTabuleiro() {
@@ -89,7 +97,7 @@ public class Partida {
             return false;
         }
 
-        // Para IA, podemos fazer um loop para que ela realize o combo completo em um único turno
+        // Para IA
         boolean jogadaRealizadaNoTurno = false;
         while (true) {
             Movimento movimento = jogadorAtual.escolherJogada(this);
@@ -100,7 +108,7 @@ public class Partida {
 
             if (!realizarJogada(movimento)) {
                 // A IA escolheu um movimento inválido, o que não deveria acontecer.
-                // Saia para evitar um loop infinito.
+                // Saida para evitar um loop infinito.
                 break;
             }
             jogadaRealizadaNoTurno = true;

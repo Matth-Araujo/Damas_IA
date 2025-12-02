@@ -1,21 +1,22 @@
 package com.example.damas.Entities;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class Torneio {
-
     private Long id;
     private Usuario usuario;
-    private List<Partida> listaPartidas;
     private int posicaoFinal;
+    private LocalDateTime dataInicio;
+    private LocalDateTime dataFim;
+    private String status; // "EM_ANDAMENTO", "FINALIZADO"
 
     public Torneio() {
     }
 
-    public Torneio(Usuario usuario, List<Partida> listaPartidas, int posicaoFinal) {
+    public Torneio(Usuario usuario) {
         this.usuario = usuario;
-        this.listaPartidas = listaPartidas;
-        this.posicaoFinal = posicaoFinal;
+        this.dataInicio = LocalDateTime.now();
+        this.status = "EM_ANDAMENTO";
     }
 
     public Long getId() {
@@ -34,19 +35,41 @@ public class Torneio {
         this.usuario = usuario;
     }
 
-    public List<Partida> getListaPartidas() {
-        return listaPartidas;
-    }
-
-    public void setListaPartidas(List<Partida> listaPartidas) {
-        this.listaPartidas = listaPartidas;
-    }
-
     public int getPosicaoFinal() {
         return posicaoFinal;
     }
 
     public void setPosicaoFinal(int posicaoFinal) {
         this.posicaoFinal = posicaoFinal;
+    }
+
+    public LocalDateTime getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(LocalDateTime dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public LocalDateTime getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(LocalDateTime dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void finalizar(int posicao) {
+        this.posicaoFinal = posicao;
+        this.dataFim = LocalDateTime.now();
+        this.status = "FINALIZADO";
     }
 }

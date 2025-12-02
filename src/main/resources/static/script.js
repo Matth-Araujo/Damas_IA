@@ -65,7 +65,7 @@ async function iniciarJogo(nivel) {
     }
 }
 
-// NOVO: Adiciona animação de fade para suavizar a atualização
+//Adiciona animação de fade para suavizar a atualização
 async function atualizarTabuleiroComAnimacao(grid) {
     const board = document.getElementById('board');
     board.classList.add('fading-out');

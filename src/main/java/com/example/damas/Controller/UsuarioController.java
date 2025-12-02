@@ -2,6 +2,8 @@ package com.example.damas.Controller;
 
 import com.example.damas.Entities.Usuario;
 import com.example.damas.Service.UsuarioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import java.util.Map;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+
 
     @Autowired
     public UsuarioController(UsuarioService usuarioService) {
@@ -45,7 +49,7 @@ public class UsuarioController {
             Usuario usuario = usuarioService.fazerLogin(email, senha);
 
             if (usuario != null) {
-                
+
                 session.setAttribute("usuarioLogado", usuario);
                 session.setAttribute("usuarioId", usuario.getId());
                 session.setAttribute("usuarioNome", usuario.getNome());
@@ -82,13 +86,39 @@ public class UsuarioController {
         return ResponseEntity.ok("Logout realizado com sucesso!");
     }
 
+    // Endpoint de ranking geral (mantém compatibilidade)
     @GetMapping("/ranking")
     public ResponseEntity<?> getRanking() {
         try {
             List<Map<String, Object>> ranking = usuarioService.getRanking();
             return ResponseEntity.ok(ranking);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erro ao buscar ranking: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of("erro", "Erro ao buscar ranking: " + e.getMessage()));
+        }
+    }
+
+    // NRanking Geral
+    @GetMapping("/ranking/geral")
+    public ResponseEntity<?> getRankingGeral() {
+        try {
+            List<Map<String, Object>> ranking = usuarioService.getRankingGeral();
+            return ResponseEntity.ok(ranking);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of("erro", "Erro ao buscar ranking: " + e.getMessage()));
+        }
+    }
+
+    // Ranking por Nível
+    @GetMapping("/ranking/{nivel}")
+    public ResponseEntity<?> getRankingPorNivel(@PathVariable String nivel) {
+        try {
+            List<Map<String, Object>> ranking = usuarioService.getRankingPorNivel(nivel.toUpperCase());
+            return ResponseEntity.ok(ranking);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of("erro", "Erro ao buscar ranking: " + e.getMessage()));
         }
     }
 }

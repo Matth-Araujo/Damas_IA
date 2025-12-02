@@ -1,24 +1,100 @@
 let rankingCarregado = false;
+let torneiosCarregados = false;
+let nivelRankingAtual = 'geral';
 
-// Alterna entre abas
+// Alterna entre abas principais
 function mostrarAba(aba) {
-    // Remove active de todas as abas
     document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.aba-content').forEach(content => content.classList.remove('active'));
 
-    // Adiciona active na aba selecionada
     if (aba === 'historico') {
-        document.querySelector('.tab:first-child').classList.add('active');
+        document.querySelector('.tab:nth-child(1)').classList.add('active');
         document.getElementById('aba-historico').classList.add('active');
-    } else {
-        document.querySelector('.tab:last-child').classList.add('active');
+    } else if (aba === 'torneios') {
+        document.querySelector('.tab:nth-child(2)').classList.add('active');
+        document.getElementById('aba-torneios').classList.add('active');
+
+        if (!torneiosCarregados) {
+            carregarTorneios();
+            torneiosCarregados = true;
+        }
+    } else if (aba === 'ranking') {
+        document.querySelector('.tab:nth-child(3)').classList.add('active');
         document.getElementById('aba-ranking').classList.add('active');
 
-        // Carrega ranking apenas uma vez
         if (!rankingCarregado) {
-            carregarRanking();
+            carregarRanking('geral');
             rankingCarregado = true;
         }
+    }
+}
+
+// Alterna entre rankings (geral, fácil, médio, difícil)
+function mostrarRanking(nivel) {
+    nivelRankingAtual = nivel;
+
+    // Remove active de todos os botões
+    document.querySelectorAll('.ranking-tab').forEach(tab => tab.classList.remove('active'));
+
+    // Adiciona active no botão clicado
+    const botoes = document.querySelectorAll('.ranking-tab');
+    if (nivel === 'geral') {
+        botoes[0].classList.add('active');
+    } else if (nivel === 'facil') {
+        botoes[1].classList.add('active');
+    } else if (nivel === 'medio') {
+        botoes[2].classList.add('active');
+    } else if (nivel === 'dificil') {
+        botoes[3].classList.add('active');
+    }
+
+    // Converte para maiúsculo antes de chamar
+    carregarRanking(nivel);
+}
+
+// Carrega ranking
+async function carregarRanking(nivel) {
+    const loading = document.getElementById('loading-ranking');
+    const semRanking = document.getElementById('sem-ranking');
+    const lista = document.getElementById('ranking-lista');
+
+    loading.style.display = 'block';
+    lista.innerHTML = '';
+    semRanking.style.display = 'none';
+
+    try {
+        const endpoint = nivel === 'geral'
+            ? '/api/usuarios/ranking/geral'
+            : `/api/usuarios/ranking/${nivel}`;
+
+        console.log('Carregando ranking de:', endpoint); // DEBUG
+
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar ranking');
+        }
+
+        const ranking = await response.json();
+
+        console.log('Ranking recebido:', ranking); // DEBUG
+
+        loading.style.display = 'none';
+
+        if (ranking.length === 0) {
+            semRanking.style.display = 'block';
+            return;
+        }
+
+        ranking.forEach((jogador, index) => {
+            const item = criarItemRanking(jogador, index + 1);
+            lista.appendChild(item);
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar ranking:', error);
+        loading.textContent = 'Erro ao carregar ranking. Tente novamente.';
+        loading.style.display = 'block';
     }
 }
 
@@ -60,25 +136,90 @@ async function carregarHistorico() {
     }
 }
 
-// Carrega ranking de jogadores
-async function carregarRanking() {
+// Carrega torneios do usuário
+async function carregarTorneios() {
+    const loading = document.getElementById('loading-torneios');
+    const semTorneios = document.getElementById('sem-torneios');
+    const lista = document.getElementById('torneios-lista');
+
+    console.log(' Carregando torneios'); // DEBUG
+
+    try {
+        const response = await fetch('/api/torneio/meus-torneios');
+
+        console.log(' Response status:', response.status); // DEBUG
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                alert('Você precisa fazer login!');
+                window.location.href = '/login';
+                return;
+            }
+            const errorText = await response.text();
+            console.error('❌ Erro na resposta:', errorText); // DEBUG
+            throw new Error('Erro ao carregar torneios');
+        }
+
+        const torneios = await response.json();
+        console.log(' Torneios recebidos:', torneios); // DEBUG
+
+        loading.style.display = 'none';
+
+        if (torneios.length === 0) {
+            semTorneios.style.display = 'block';
+            console.log(' Nenhum torneio encontrado'); // DEBUG
+            return;
+        }
+
+        torneios.forEach((torneio, index) => {
+            const card = criarCardTorneio(torneio, index + 1);
+            lista.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error(' Erro ao carregar torneios:', error);
+        loading.textContent = 'Erro ao carregar torneios. Tente novamente.';
+    }
+}
+
+// Carrega ranking
+async function carregarRanking(nivel) {
     const loading = document.getElementById('loading-ranking');
     const semRanking = document.getElementById('sem-ranking');
     const lista = document.getElementById('ranking-lista');
 
+    loading.style.display = 'block';
+    lista.innerHTML = '';
+    semRanking.style.display = 'none';
+
+    console.log('🔄 Carregando ranking:', nivel); // DEBUG
+
     try {
-        const response = await fetch('/api/usuarios/ranking');
+        const endpoint = nivel === 'geral'
+            ? '/api/usuarios/ranking/geral'
+            : `/api/usuarios/ranking/${nivel.toUpperCase()}`; // CORRIGIDO: converte para maiúsculo
+
+        console.log('📡 Endpoint:', endpoint); // DEBUG
+
+        const response = await fetch(endpoint);
+
+        console.log('📡 Response status:', response.status); // DEBUG
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('❌ Erro na resposta:', errorText); // DEBUG
             throw new Error('Erro ao carregar ranking');
         }
 
         const ranking = await response.json();
 
+        console.log('✅ Ranking recebido:', ranking); // DEBUG
+
         loading.style.display = 'none';
 
         if (ranking.length === 0) {
             semRanking.style.display = 'block';
+            console.log('⚠️ Nenhum jogador no ranking'); // DEBUG
             return;
         }
 
@@ -88,11 +229,13 @@ async function carregarRanking() {
         });
 
     } catch (error) {
-        console.error('Erro:', error);
+        console.error('❌ Erro ao carregar ranking:', error);
         loading.textContent = 'Erro ao carregar ranking. Tente novamente.';
+        loading.style.display = 'block';
     }
 }
 
+// Cria card de partida
 function criarCardPartida(partida) {
     const card = document.createElement('div');
     card.className = 'partida-card';
@@ -130,6 +273,26 @@ function criarCardPartida(partida) {
     return card;
 }
 
+// Cria card de torneio
+function criarCardTorneio(torneio, numero) {
+    const card = document.createElement('div');
+    card.className = 'torneio-card';
+
+    card.innerHTML = `
+        <div class="torneio-medalha">${torneio.medalha}</div>
+        <div class="torneio-info">
+            <div class="torneio-titulo">Torneio #${numero}</div>
+            <div class="torneio-detalhes">
+                <span>📊 Posição: ${torneio.posicaoFinal}º lugar</span>
+            </div>
+        </div>
+    `;
+
+    return card;
+}
+
+
+// Cria item de ranking de JOGADORES
 function criarItemRanking(jogador, posicao) {
     const item = document.createElement('div');
     item.className = 'ranking-item';
@@ -149,6 +312,8 @@ function criarItemRanking(jogador, posicao) {
     }
 
     const taxaVitoria = jogador.taxa_vitoria || 0;
+    const melhorPartida = jogador.melhor_partida || 'N/A';
+    const mediaMovimentos = jogador.media_movimentos || 0;
 
     item.innerHTML = `
         ${medalIcon ? `<div class="medal-icon">${medalIcon}</div>` : ''}
@@ -160,11 +325,81 @@ function criarItemRanking(jogador, posicao) {
                 <span>💔 ${jogador.derrotas} derrotas</span>
                 <span>🎮 ${jogador.total_partidas} partidas</span>
             </div>
+            <div class="ranking-stats" style="margin-top: 5px;">
+                <span>🎯 Melhor: ${melhorPartida} mov</span>
+                <span>📊 Média: ${mediaMovimentos} mov</span>
+            </div>
         </div>
         <div class="ranking-taxa">${taxaVitoria.toFixed(1)}%</div>
     `;
 
     return item;
+}
+
+// Ver chaveamento do torneio
+async function verChaveamento(torneioId) {
+    try {
+        const response = await fetch(`/api/torneio/${torneioId}/chaveamento`);
+        const chaveamento = await response.json();
+
+        if (response.ok) {
+            mostrarModalChaveamento(chaveamento);
+        } else {
+            alert('Erro ao carregar chaveamento');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao carregar chaveamento');
+    }
+}
+
+// Mostra modal com o chaveamento
+function mostrarModalChaveamento(chaveamento) {
+    const modal = document.getElementById('modal-chaveamento');
+    const conteudo = document.getElementById('modal-conteudo');
+
+    let html = '<h2>🏆 Chaveamento do Torneio</h2>';
+
+    const fases = ['QUARTAS', 'SEMIFINAL', 'FINAL'];
+    const nomeFases = {
+        'QUARTAS': 'Quartas de Final',
+        'SEMIFINAL': 'Semifinais',
+        'FINAL': 'Final'
+    };
+
+    fases.forEach(fase => {
+        if (chaveamento[fase] && chaveamento[fase].length > 0) {
+            html += `
+                <div class="chaveamento-fase">
+                    <h3>${nomeFases[fase]}</h3>
+                    <div class="chaveamento-partidas">
+            `;
+
+            chaveamento[fase].forEach((partida, index) => {
+                html += `
+                    <div class="chaveamento-partida">
+                        <h4>Partida ${index + 1}</h4>
+                        <div class="chaveamento-jogador ${partida.vencedor === partida.jogador1 ? 'vencedor' : ''}">
+                            ${partida.jogador1}
+                        </div>
+                        <div style="text-align: center; margin: 5px 0;">⚔️</div>
+                        <div class="chaveamento-jogador ${partida.vencedor === partida.jogador2 ? 'vencedor' : ''}">
+                            ${partida.jogador2}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div></div>`;
+        }
+    });
+
+    conteudo.innerHTML = html;
+    modal.classList.add('active');
+}
+
+function fecharModal() {
+    document.getElementById('modal-chaveamento').classList.remove('active');
 }
 
 // Carrega o historico quando a pagina carregar
