@@ -189,7 +189,7 @@ public class Tabuleiro {
             movimentos.add(new Movimento(pos, p4, pecaCapturada2));
         }
 
-        // NOVO: Capturas para trás (peça normal também pode capturar para trás)
+        // Capturas para trás
         int direcaoInversa = -direcao;
 
         // Captura para trás (diagonal esquerda)

@@ -66,7 +66,7 @@ public class JogoController {
     @PostMapping("/jogar")
     public ResponseEntity<?> realizarJogada(@RequestBody Map<String, Integer> dados, HttpSession session) {
         try {
-            Partida partida = (Partida) session.getAttribute("partidaAtual");
+            Partida partida = getPartidaFromSession(session);
 
             if (partida == null) {
                 return ResponseEntity.badRequest().body(Map.of("erro", "Nenhuma partida em andamento"));
@@ -76,7 +76,7 @@ public class JogoController {
                 return ResponseEntity.badRequest().body(Map.of("erro", "Partida já finalizada"));
             }
 
-            // Pega as coordenadas
+            // coordenadas
             int origemLinha = dados.get("origemLinha");
             int origemColuna = dados.get("origemColuna");
             int destinoLinha = dados.get("destinoLinha");
@@ -90,7 +90,7 @@ public class JogoController {
                 return ResponseEntity.badRequest().body(Map.of("erro", "Não é seu turno!"));
             }
 
-            // Verifica se há capturas obrigatórias
+            // Verifica se tem capturas obrigatorias
             List<Movimento> capturasObrigatorias = partida.getTabuleiro().getMovimentosObrigatorios(Cor.BRANCO);
             if (!capturasObrigatorias.isEmpty()) {
                 boolean isMoveACapture = false;
@@ -124,7 +124,7 @@ public class JogoController {
             resposta.put("status", partida.getStatus().toString());
             resposta.put("emCombo", partida.isEmCombo());
 
-            // Se ainda está em combo, não é turno do bot
+            // Se ainda esta em combo, nao é turno do bot
             if (partida.isEmCombo()) {
                 resposta.put("mensagem", "Continue capturando!");
                 resposta.put("posicaoCombo", Map.of(
@@ -170,7 +170,7 @@ public class JogoController {
     @GetMapping("/estado")
     public ResponseEntity<?> obterEstado(HttpSession session) {
         try {
-            Partida partida = (Partida) session.getAttribute("partidaAtual");
+            Partida partida = getPartidaFromSession(session);
 
             if (partida == null) {
                 return ResponseEntity.ok(Map.of("partidaAtiva", false));
@@ -191,12 +191,12 @@ public class JogoController {
     }
 
     /**
-     * Retorna movimentos válidos para uma peça
+     * Retorna movimentos validos para uma peça
      */
     @PostMapping("/movimentos-validos")
     public ResponseEntity<?> obterMovimentosValidos(@RequestBody Map<String, Integer> dados, HttpSession session) {
         try {
-            Partida partida = (Partida) session.getAttribute("partidaAtual");
+            Partida partida = getPartidaFromSession(session);
 
             if (partida == null) {
                 return ResponseEntity.badRequest().body(Map.of("erro", "Nenhuma partida em andamento"));
@@ -235,7 +235,7 @@ public class JogoController {
     @PostMapping("/desistir")
     public ResponseEntity<?> desistir(HttpSession session) {
         try {
-            Partida partida = (Partida) session.getAttribute("partidaAtual");
+            Partida partida = getPartidaFromSession(session);
 
             if (partida == null) {
                 return ResponseEntity.badRequest().body(Map.of("erro", "Nenhuma partida em andamento"));
@@ -245,6 +245,8 @@ public class JogoController {
             salvarHistoricoDerrota(partida, session);
 
             session.removeAttribute("partidaAtual");
+            session.removeAttribute("partidaTorneio");
+
 
             return ResponseEntity.ok(Map.of("mensagem", "Você desistiu da partida"));
 
@@ -254,6 +256,13 @@ public class JogoController {
     }
 
     // Métodos auxiliares
+    private Partida getPartidaFromSession(HttpSession session) {
+        Partida partida = (Partida) session.getAttribute("partidaTorneio");
+        if (partida == null) {
+            partida = (Partida) session.getAttribute("partidaAtual");
+        }
+        return partida;
+    }
     private Map<String, Object> serializarTabuleiro(Tabuleiro tabuleiro) {
         String[][] grid = new String[8][8];
 

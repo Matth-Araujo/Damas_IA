@@ -25,7 +25,7 @@ CREATE TABLE torneio (
     posicao_final INTEGER
 );
 
--- Tabela: partida
+-- Tabela: partida do torneio
 CREATE TABLE partida (
     id SERIAL PRIMARY KEY,
     torneio_id INTEGER REFERENCES torneio(id),

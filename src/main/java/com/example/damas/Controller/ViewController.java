@@ -25,4 +25,8 @@ public class ViewController {
     public String historico() {
         return "historico";
     }
+    @GetMapping("/torneio")
+    public String torneio() {
+        return "torneio";
+    }
 }

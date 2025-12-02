@@ -235,3 +235,227 @@ body {
 .medal-icon {
     font-size: 36px;
 }
+/* Sub-abas do Ranking */
+.ranking-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.ranking-tab {
+    padding: 10px 20px;
+    background-color: #3c3834;
+    color: #a0a0a0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.ranking-tab:hover {
+    background-color: #4a4440;
+}
+
+.ranking-tab.active {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+/* Card de Torneio */
+.torneio-card {
+    background-color: #312e2b;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.torneio-card:hover {
+    background-color: #3c3834;
+}
+
+.torneio-medalha {
+    font-size: 48px;
+    min-width: 60px;
+    text-align: center;
+}
+
+.torneio-info {
+    flex: 1;
+}
+
+.torneio-titulo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.torneio-detalhes {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #a0a0a0;
+}
+
+.btn-ver-chaveamento {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-ver-chaveamento:hover {
+    background-color: #0056b3;
+}
+
+/* Modal de Chaveamento */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #312e2b;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chaveamento-fase {
+    margin-bottom: 30px;
+}
+
+.chaveamento-fase h3 {
+    color: #FFD700;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.chaveamento-partidas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.chaveamento-partida {
+    background-color: #3c3834;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.chaveamento-jogador {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #262421;
+}
+
+.chaveamento-jogador.vencedor {
+    background-color: #2d5016;
+    font-weight: bold;
+}
+/* Item de Ranking */
+.ranking-item {
+    background-color: #312e2b;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: background-color 0.2s;
+    margin-bottom: 12px;
+}
+
+.ranking-item:hover {
+    background-color: #3c3834;
+}
+
+.ranking-posicao {
+    font-size: 32px;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+.ranking-posicao.top1 {
+    color: #FFD700;
+}
+
+.ranking-posicao.top2 {
+    color: #C0C0C0;
+}
+
+.ranking-posicao.top3 {
+    color: #CD7F32;
+}
+
+.ranking-info {
+    flex: 1;
+}
+
+.ranking-nome {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.ranking-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #a0a0a0;
+    flex-wrap: wrap;
+}
+
+.ranking-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ranking-taxa {
+    font-size: 24px;
+    font-weight: bold;
+    color: #81b64c;
+    min-width: 80px;
+    text-align: right;
+}
+
+.medal-icon {
+    font-size: 36px;
+}
