@@ -51,16 +51,7 @@ public class TorneioController {
             session.setAttribute("estadoTorneio", estadoTorneio);
 
             // Retorna o chaveamento inicial
-            List<Map<String, String>> chaveamentoJson = new ArrayList<>();
-            for (int i = 0; i < participantes.size(); i++) {
-                Jogador j = participantes.get(i);
-                chaveamentoJson.add(Map.of(
-                        "id", String.valueOf(i),
-                        "nome", j.getNome(),
-                        "tipo", (j instanceof JogadorHumano) ? "HUMANO" : "IA",
-                        "nivel", (j instanceof IA) ? ((IA) j).getNivel().toString() : "N/A"
-                ));
-            }
+            List<Map<String, String>> chaveamentoJson = serializarParticipantes(participantes);
 
             return ResponseEntity.ok(Map.of(
                     "torneioId", torneioId,
@@ -134,9 +125,11 @@ public class TorneioController {
                     estadoTorneio.put("partidaAtual", 0);
                     session.setAttribute("estadoTorneio", estadoTorneio);
 
+                    // RETORNA OS NOVOS PARTICIPANTES
                     return ResponseEntity.ok(Map.of(
                             "fase", "SEMIFINAL",
-                            "mensagem", "Quartas de final concluídas! Iniciando semifinais."
+                            "mensagem", "Quartas de final concluídas! Iniciando semifinais.",
+                            "participantes", serializarParticipantes(vencedores)
                     ));
 
                 } else if (fase.equals("SEMIFINAL") && vencedores.size() == 2) {
@@ -146,9 +139,11 @@ public class TorneioController {
                     estadoTorneio.put("partidaAtual", 0);
                     session.setAttribute("estadoTorneio", estadoTorneio);
 
+                    // RETORNA OS FINALISTAS
                     return ResponseEntity.ok(Map.of(
                             "fase", "FINAL",
-                            "mensagem", "Semifinais concluídas! Preparando a grande final!"
+                            "mensagem", "Semifinais concluídas! Preparando a grande final!",
+                            "participantes", serializarParticipantes(vencedores)
                     ));
 
                 } else if (fase.equals("FINAL") && vencedores.size() == 1) {
@@ -163,6 +158,7 @@ public class TorneioController {
                     return ResponseEntity.ok(Map.of(
                             "torneioFinalizado", true,
                             "campeao", campeao.getNome(),
+                            "posicaoFinal", posicaoFinal,
                             "posicaoJogador", posicaoFinal,
                             "mensagem", (campeao instanceof JogadorHumano)
                                     ? "🏆 PARABÉNS! Você é o campeão do torneio!"
@@ -319,6 +315,22 @@ public class TorneioController {
         }
     }
 
+    /**
+     * Serializa lista de participantes para JSON
+     */
+    private List<Map<String, String>> serializarParticipantes(List<Jogador> participantes) {
+        List<Map<String, String>> chaveamentoJson = new ArrayList<>();
+        for (int i = 0; i < participantes.size(); i++) {
+            Jogador j = participantes.get(i);
+            chaveamentoJson.add(Map.of(
+                    "id", String.valueOf(i),
+                    "nome", j.getNome(),
+                    "tipo", (j instanceof JogadorHumano) ? "HUMANO" : "IA",
+                    "nivel", (j instanceof IA) ? ((IA) j).getNivel().toString() : "N/A"
+            ));
+        }
+        return chaveamentoJson;
+    }
 
     private int calcularPosicaoEliminacao(String fase, int partidaAtual) {
         switch (fase) {
@@ -354,6 +366,7 @@ public class TorneioController {
 
         return Map.of("grid", grid);
     }
+
     @GetMapping("/meus-torneios")
     public ResponseEntity<?> meusTorneios(HttpSession session) {
         try {

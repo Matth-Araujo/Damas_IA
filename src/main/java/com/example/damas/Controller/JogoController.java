@@ -61,7 +61,7 @@ public class JogoController {
     }
 
     /**
-     * Realiza uma jogada do jogador humano
+     * Realiza uma jogada do jogador
      */
     @PostMapping("/jogar")
     public ResponseEntity<?> realizarJogada(@RequestBody Map<String, Integer> dados, HttpSession session) {

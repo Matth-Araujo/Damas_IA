@@ -38,6 +38,15 @@ function renderizarChaveamento() {
     const chaveamentoDiv = document.getElementById('chaveamento');
     chaveamentoDiv.innerHTML = '';
 
+    // Atualiza o título da fase
+    let tituloFase = 'Quartas de Final';
+    if (fase === 'SEMIFINAL') {
+        tituloFase = 'Semifinais';
+    } else if (fase === 'FINAL') {
+        tituloFase = 'Grande Final';
+    }
+    document.getElementById('fase-titulo').textContent = tituloFase;
+
     // Agrupa em pares
     for (let i = 0; i < participantes.length; i += 2) {
         const card = document.createElement('div');
@@ -80,8 +89,15 @@ async function proximaPartida() {
             if (data.fase && !data.tipo) {
                 // Mudança de fase
                 fase = data.fase;
-                document.getElementById('fase-titulo').textContent =
-                    data.fase === 'SEMIFINAL' ? 'Semifinais' : 'Grande Final';
+
+                // Atualiza os participantes se fornecidos
+                if (data.participantes) {
+                    participantes = data.participantes;
+                }
+
+                // Re-renderiza o chaveamento com a nova fase
+                renderizarChaveamento();
+
                 alert(data.mensagem);
 
                 // Aguarda um pouco e continua
@@ -108,7 +124,7 @@ async function proximaPartida() {
                 partidaEmAndamento = true;
 
                 document.getElementById('info-partida').innerHTML = `
-                    <h2>Sua Partida - ${fase}</h2>
+                    <h2>Sua Partida - ${fase === 'SEMIFINAL' ? 'Semifinal' : fase === 'FINAL' ? 'Final' : 'Quartas'}</h2>
                     <p><strong>Você</strong> (Brancas) vs <strong>${data.jogador2}</strong> (Pretas)</p>
                     <p>🎯 Boa sorte!</p>
                 `;
@@ -300,9 +316,17 @@ async function registrarResultadoTorneio(resultado) {
             if (data.torneioFinalizado) {
                 mostrarResultadoFinal(data);
             } else {
+                // Atualiza os participantes para a próxima fase, se fornecidos
+                if (data.participantes) {
+                    participantes = data.participantes;
+                }
+
                 // Continua o torneio
                 alert(data.mensagem);
                 mostrarTela('tela-chaveamento');
+
+                // Re-renderiza o chaveamento antes de continuar
+                renderizarChaveamento();
 
                 // Aguarda e vai para a próxima partida
                 setTimeout(() => proximaPartida(), 2000);
